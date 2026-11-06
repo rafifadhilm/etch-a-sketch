@@ -61,6 +61,8 @@ function askNum(){
   const num = Number(prompt("Enter a number of squares per side (Max 100)"));
   if (num > 100) {
     return 100;
+  } else if (num === 0 || num === undefined) {
+    return 16;
   }
   return num;
 }
