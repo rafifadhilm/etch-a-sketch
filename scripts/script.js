@@ -1,33 +1,40 @@
+let currentSize = 16;
+
+const buttonContainer = document.createElement("div");
+const askNumButton = document.createElement("button");
+const resetButton = document.createElement("button");
+
+buttonContainer.classList.add("btn-container");
+
+askNumButton.classList.add("ask-num", "btn");
+askNumButton.textContent = "Change Grid Layout";
+
+resetButton.classList.add("reset", "btn");
+resetButton.textContent = "Reset";
+
+document.body.prepend(buttonContainer);
+buttonContainer.append(askNumButton);
+buttonContainer.append(resetButton);
+
 function createGrid (num) {
   const container = document.querySelector(".container");
   const fragment = document.createDocumentFragment();
+  
+  currentSize = num;
+  let totalSquares = num * num;
 
-  let totalSquares = 16 * 16;
-
-  if (num === undefined || num === 0) {
-    for (let i = 0; i < totalSquares; i++) {
-      const square = document.createElement("div");
-      square.classList.add("child");
-      
-      square.style.width = `${100 / 16}%`;
-      square.style.height = `${100 / 16}%`;
-      
-      fragment.appendChild(square);
-    }
-  } else {
-    totalSquares = num * num;
-    container.replaceChildren();
-    for (let i = 0; i < totalSquares; i++) {
-      const square = document.createElement("div");
-      square.classList.add("child");
-      
-      square.style.width = `${100 / num}%`;
-      square.style.height = `${100 / num}%`;
-      
-      fragment.appendChild(square);
-    }
+  totalSquares = num * num;
+  container.replaceChildren();
+  for (let i = 0; i < totalSquares; i++) {
+    const square = document.createElement("div");
+    square.classList.add("child");
+    
+    square.style.width = `${100 / num}%`;
+    square.style.height = `${100 / num}%`;
+    
+    fragment.appendChild(square);
   }
-
+  
   container.appendChild(fragment);
 
   container.addEventListener("mouseover", (event) => {
@@ -45,15 +52,16 @@ function askNum(){
   return num;
 }
 
-const askNumButton = document.createElement("button");
-
-askNumButton.classList.add("ask-num", "btn");
-askNumButton.textContent = "Change Grid Layout";
-
-document.body.prepend(askNumButton);
-
-createGrid();
+createGrid(16);
 
 askNumButton.addEventListener("click", (event) => {
   createGrid(askNum());
+});
+
+resetButton.addEventListener("click", (event) => {
+  if (currentSize === 16) {
+    createGrid(16);
+  } else {
+    createGrid(currentSize);
+  }
 });
