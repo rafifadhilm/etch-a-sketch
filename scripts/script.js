@@ -1,4 +1,5 @@
 let currentSize = 16;
+let isDrawing = false;
 
 const buttonContainer = document.createElement("div");
 const askNumButton = document.createElement("button");
@@ -37,12 +38,24 @@ function createGrid (num) {
   
   container.appendChild(fragment);
 
-  container.addEventListener("mouseover", (event) => {
+  container.addEventListener("mousedown", (event) => {
     if (event.target !== container && event.target.tagName === "DIV") {
+      event.preventDefault();
+      isDrawing = true;
+      event.target.style.backgroundColor = "orange";
+    }
+  })
+
+  container.addEventListener("mouseover", (event) => {
+    if (isDrawing && event.target !== container && event.target.tagName === "DIV") {
       event.target.style.backgroundColor = "orange";
     }
   });
 }
+
+window.addEventListener("mouseup", (event) => {
+  isDrawing = false;
+});
 
 function askNum(){
   const num = Number(prompt("Enter a number of squares per side (Max 100)"));
@@ -59,9 +72,5 @@ askNumButton.addEventListener("click", (event) => {
 });
 
 resetButton.addEventListener("click", (event) => {
-  if (currentSize === 16) {
-    createGrid(16);
-  } else {
-    createGrid(currentSize);
-  }
+  createGrid(currentSize);
 });
