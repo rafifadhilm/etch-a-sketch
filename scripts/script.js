@@ -15,3 +15,9 @@ for (let i = 0; i < totalSquares; i++) {
 }
 
 container.appendChild(fragment);
+
+container.addEventListener("mouseover", (event) => {
+  if (event.target !== container && event.target.tagName === "DIV") {
+    event.target.style.backgroundColor = "orange";
+  }
+});
